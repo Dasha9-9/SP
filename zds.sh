@@ -1,34 +1,30 @@
 #!/bin/sh
 echo
-echo "Zlodeeva Daria Sergeevna"
-echo "Nazvanie"
-echo "Opisanie"
+echo "Zlodeeva Darya Sergeevna"
+echo "Manager packetov yum"
+echo "Rabota s repolist"
 echo
-
 while :
 do
-    repolist="yum repolist all"
-    eval $repolist
+    yum repolist all
     echo
     echo "Enter repository:"
     read repo
-    FILE=/etc/yum.repos.d/${repo}.repo
-    while read LINE; do
-       stroka=$LINE
-       name=$(echo $stroka | awk -F'=' '{print $1}')
-        if test $name = "name"; then
-	    namerepo=$(echo $stroka | awk -F' - ' '{print $2}')
-        fi
-        if test $stroka = "enabled=1"; then
-            yum-config-manager --disable $namerepo
+	
+	yum repoinfo $repo
+	echo "1 - off 2 - on"
+	read stroka
+        if test $stroka = "1"; then
+            yum-config-manager --disable $repo
       	    yum clean all
 	    yum makecache
-        elif test $stroka = "enabled=0"; then
-	    yum-config-manager --enable $namerepo
+        elif test $stroka = "2"; then
+	    yum-config-manager --enable $repo
 	    yum clean all
 	    yum makecache
+	else
+	   echo "Error"
         fi
-     done < $FILE
     while :
         do
         echo
