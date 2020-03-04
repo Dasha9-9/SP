@@ -1,3 +1,3 @@
-FROM centOS
-MAINTAINER Zlodeeva D
-RUN yum update && yum install nano
+FROM centos
+MAINTAINER zlodeeva d
+COPY zds.sh /home/zds.sh
